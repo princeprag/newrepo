@@ -278,7 +278,7 @@ int main()
     int l=s.length();
     for(int a=0;a<l;a++)
     {
-        prev=prev+prev;
+        prev+prev;
     }
     for(int i=1;i<=l;i++)
     {
