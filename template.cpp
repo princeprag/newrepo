@@ -272,7 +272,7 @@ int main()
 
      
 
-    string s,prev="z";
+    string s;
     int rr=0;
     cin>>s;
     int l=s.length();
