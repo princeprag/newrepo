@@ -289,7 +289,7 @@ int main()
     }
 
     cout<<prev<<endl;
-  //  cout<<rr<<endl;
+   cout<<rr<<endl;
        
      }
     return 0;
