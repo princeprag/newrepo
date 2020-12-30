@@ -1,0 +1,48 @@
+const int N=60005;
+vector<int> adj[N];
+
+int depth[N],sizz[N];
+bool visited[N],rec[N];
+bool isCycle=false;
+// ll clr[N];
+void dfs2(int s,int p){
+    sizz[s]=1;
+    visited[s]=true;
+    rec[s]=true;
+   
+    for(auto x:adj[s]){
+       
+            if(visited[x]==false)
+            {
+        
+            depth[x]=depth[s]+1;
+            dfs(x,s);
+            sizz[s]=sizz[s]+sizz[x];
+
+            }
+            else if(rec[x]) isCycle=true;
+           
+        
+    }
+    rec[s]=false;
+}
+
+int Solution::solve(int A, vector<int> &B, vector<int> &C) {
+    for(int i=0;i<=A;i++)
+    {
+        adj[i].clear();
+        sizz[i]=depth[i]=0;
+        visited[i]=rec[i]=false;
+        isisCycle=false;
+    }
+    for(int i=0;i<B.size();i++)
+    {
+        adj[B[i]].push_back(C[i]);
+    }
+    
+    for(int i=1;i<=A;i++) if(!visited[i]) dfs2(i,0);
+    
+    if(isisCycle) return 0;
+    else return 1;
+    
+}

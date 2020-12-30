@@ -11,6 +11,42 @@ using namespace std;
 #define mod 1000000007
 #define Pi 3.14159265358979323846
 
+// a%b is neg if a or b is neg
+
+ll getMinDiff(vector<ll>  arr) 
+{ 
+     
+    ll n=arr.size();
+    ll freq[101] = { 0 }; 
+  
+    for (ll i = 0; i < n; i++)  
+    {
+     freq[arr[i]]++; 
+     if(freq[arr[i]]>1) return 0;
+    }
+    
+  
+    ll mn = LLONG_MAX; 
+  
+   
+    for (int i = 0; i < 101; i++) { 
+        if (freq[i] > 0) { 
+            i++; 
+            ll cnt = 1; 
+            while ((freq[i] == 0) && (i != 100)) { 
+                cnt++; 
+                i++; 
+            } 
+            mn = min(cnt, mn); 
+            i--; 
+        } 
+    } 
+  
+    
+    return mn; 
+} 
+
+
 bool checkPrime(ll x)
 {
     if (x == 1)
@@ -36,6 +72,36 @@ bool checkPrime(ll x)
     }
     return true;
 }
+
+unsigned int reverse(unsigned int A) {
+    unsigned int B = 0; //B will hold the reversed number
+    for(int i=0;i<32;i++){  //Iterating on all bit positions
+        int k = A & 1;      //Extracting the rightmost bit from A (the ith bit in original number)
+        B <<= 1;            //Shifting B to left (rightmost bit becomes 0)
+        B |= k;             //Adding the extracted bit
+        A >>= 1;            //Now the (i+1)st bit shifts to the rightmost position in A
+    }
+    return B;
+}
+ 
+
+  
+
+ll fact(ll n) 
+{ 
+    ll res = 1; 
+    for (ll i = 2; i <= n; i++) 
+        res = res * i; 
+    return res; 
+} 
+
+  
+ll nCr(ll n, ll r) 
+{ 
+    return fact(n) / (fact(r) * fact(n - r)); 
+} 
+  
+
 void allSumadj(int arr[], int n,vector<ll>* v,int* it)
 { if(n==0)
   {
@@ -54,41 +120,24 @@ void allSumadj(int arr[], int n,vector<ll>* v,int* it)
 
   *it=size;
 
-  
-
-
 }
 
-void allSum(ll arr[], ll n,vector<ll>* v)
-{ if(n==0)
-  {
-   return;
-  }
-   allSum(arr+1,n-1,v);
-  ll size=v->size();
-  for(ll k=0;k<size;k++)
-  {
-      v->push_back(v->at(k)+arr[0]);
-      
-  }
-
-  v->push_back(arr[0]);
 
 
-}
 
 bool checkPow(ll x,ll k)
 {   
-   /* while(abs(x)>1)
+    while(abs(x)>1)           // does not work if both x nd k are negative,, but is fastest
     {
         if(x%k!=0)
          return false;
 
         x=x/k; 
-    }*/
+    }
+    /*
     ll val=1;
     int count=0;
-    while(abs(val)<abs(x))
+    while(abs(val)<abs(x))   // to check for negative like ispow(-9,-3)
     {
         val=val*k;
         count++;
@@ -98,23 +147,19 @@ bool checkPow(ll x,ll k)
      else
      {
          return false;
-     }
+     }*/
+
+   
+
+     return true;
      
 }
 
-string reversee(string s)
-     {
-         if(s.length()==0)
-         return "";
-
-         string ans= reversee(s.substr(1))+s.substr(0,1);
-         return ans;
-
-     }
 
 
-     string gives(string s,int i)
-     {  if(i==s.length())
+
+string gives(string s,int i)
+{  if(i==s.length())
          return reversee(s);
 
 
@@ -124,174 +169,151 @@ string reversee(string s)
 
          string fs=gives(dum.substr(1),i);
          return dum.substr(0,1)+fs;
-     }
-    
+}
 
-int main()
-{   
+
+int no_of_common_ones_inxor(int x,int y)
+{   int count=0;
+    for(int i=31;i>=0;i--)
+    { bool b1= x&(1<<i);
+      bool b2= y&(1<<i);
+      int num=(b1&b2)?0:(b1|b2);
+      if(num==1)
+      count++;
+}
+
+    return count;
+}
+
+
+
+void givesubstrings(string s,vector<string>* v)
+{
+    ll l=s.length();
+    for(ll sl=1;sl<=l;sl++)
+       for(ll i=0;i<=l-sl;i++)
+           v->push_back(s.substr(i,sl));
+}
+
+void givesubsequence(string s,vector<string>* v)
+{
+    if(s.length()==1)
+    {
+        v->push_back(s);
+        return;}
+
+    
+    givesubsequence(s.substr(1),v);
+
+    ll a=v->size();
+
+    for(ll i=0;i<a;i++)
+    {
+        string p= s[0]+v->at(i);
+        v->push_back(p);
+    }
+
+    v->push_back(s.substr(0,1));
+
+}
+
+ll power(ll x, ll y, ll p) 
+{ 
+    ll res = 1;      
+    x = x % p;  
+  
+    while (y > 0) 
+    { 
+       
+        if (y & 1) 
+            res = (res*x) % p; 
+  
+        
+        y = y>>1; 
+        x = (x*x) % p; 
+    } 
+    return res; 
+}
+
+ll modInverse(ll n, ll p) 
+{ 
+    return power(n, p-2, p); 
+} 
+
+ll nCrModPFermat(ll n, ll r, ll p) 
+{ 
+   // Base case 
+   if (r==0) 
+      return 1; 
+  
+    
+    ll fac[n+1]; 
+    fac[0] = 1; 
+    for (ll i=1 ; i<=n; i++) 
+        fac[i] = fac[i-1]*i%p; 
+  
+    return (fac[n] % p* modInverse(fac[r], p) % p * modInverse(fac[n-r], p) % p) % p; 
+}
+
+
+
 
   
 
-//cout<<checkPow(9,-3);
-
-  /*  cin>>n>>k;
-
-
- vector<ll> v;
- int* arr = new int[n];
-    // cout<<v.size();
-     fori(n) cin>>arr[i];
-      int x=0;
-     allSumadj(arr,n,&v,&x);
-
-     delete[] arr;
-
-    // //cout<<v.size()<<endl;
-    // for(int i=0;i<v.size();i++)
-    // cout<<v.at(i)<<" ";
-
-    // cout<<endl;
-
-   /* unordered_map<ll,ll> m;
-    unordered_map<ll,ll> ::iterator it;
-    for(int i=0;i<v.size();i++)
-    {
-        m[v.at(i)]++;
-    }
-    ll sum=0;
-    for(it=m.begin();it!=m.end();++it)
-    {
-        // cout<<it->first<<" "<<it->second<<endl;
-        if(it->first==1 || checkPow(it->first,k))
-        sum=sum+it->second;
-    }
-
-    cout<<sum;
-    //cout<<checkPow(2,2);
-    cout<<v.size();
-    ll sum=0;
-    for(int i=0;i<v.size();i++)
-    {    //cout<<v.at(i)<<" ";
-        if(v.at(i)==1 || checkPow(v.at(i),k))
-        sum++;
-    }
-    cout<<sum;
-    stack<char> q;
-    vector<int> index,small;
-    string s;
-    int op=0,sml=0;
-    bool b= true;
-    cin>>s;
-    ll l=s.size();
-    int arr[l];
-    fori(l)
-    arr[i]=0;
-
-    fori(l)
-    {
-        if(s[i]==')')
-        {   
-            if(q.size()!=0 && q.top()=='(')
-            { 
-              if(b==true || index.size()==0)
-              op++;
-
-              q.pop();
-              b=false;
-              index.push_back(i);
-              index.push_back(i+1);
-
-              sml=+2;
-            }
-            else
-            {   if(sml!=0)
-                small.push_back(sml);
-               
-                q.push(s[i]);
-                b=false;
-                sml=0;
-              
-            }
-            
-
-        }
-        else
-        {   if(sml!=0)
-            small.push_back(sml);
-
-            b=true;
-            q.push(s[i]);
-            sml=0;
-        }
-        
-
-
-    }
-
-    cout<<op<<endl;
-
-   for(int i=0;i<small.size();i++)
-    cout<<small[i]<<" ";
-
-    if(small.size())
-    cout<<endl;
-
-    for(int i=0;i<index.size();i++)
-    cout<<index[i]<<" ";
-
-   ll n,m,p;
-   bool x=false;
-   cin>>n>>m>>p;
-   ll arr[n],arr1[m],prod[n][m];
-   vector<int> id1,id2;
-   for(ll i=n-1;i>=0;i--)
-   {
-       cin>>arr[i];
-       if(arr[i]%p==0)
-       id1.push_back(i);
-   }
-
-   for(ll i=m-1;i>=0;i--)
-   {
-       cin>>arr1[i];
-       if(arr1[i]%p==0)
-       id2.push_back(i);
-   }
-
-   for(ll i=n-1;i>=0;i--)
-    {   for(ll j=m-1;j>=0;j--)
-     {
-         ll prod[i+j]=arr[i]*arr1[j];
-         
-     }*/
-
-     ll t;
-     cin>>t;
-     while(t--)
-     {
-
+int main()
+{  
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);cout.tie(0);
+  ll t;
+  
+  
+  t=1;
+  while(t--)
+  {  
+      ll a,b;
+      cin>>a>>b;
+      cout<<no_of_common_ones_inxor(a,b);
      
+     
+  }
 
-    string s;
-    int rr=0;
-    cin>>s;
-    int l=s.length();
-    for(int a=0;a<l;a++)
-    {
-        prev+prev;
-    }
-    for(int i=1;i<=l;i++)
-    {
-        string ans=gives(s,i);
-     //   cout<<ans<<endl;
-        if(prev.compare(ans)>0)
-        {prev=ans; rr=i;}
-    }
-
-    cout<<prev<<endl;
-   cout<<rr<<endl;
-       
-     }
-    return 0;
-    
+  return 0;
+ 
+ 
 }
+
+
+
+/*
+ ll x,y;
+      cin>>x>>y;
+      if(x==2)
+      {cout<<"bb"<<endl;
+      continue;}
+      
+      
+      ll a=x-2,b=2;
+      
+      ll p_b1=x-2,p_b2=x-1;
+      
+      
+      
+      for(int i=2;i<=y;i++)
+      {
+        if(p_b2-p_b1==1) {p_b1--;p_b2=x-1;}
+        else
+        p_b2--;
+       
+      }
+      
+      string ans;
+      for(int i=0;i<x;i++)
+      {
+          if(i==p_b1 || i==p_b2) ans+='b';
+          else ans+='a';
+          
+      }
+      
+      cout<<ans<<endl;
+    
+  }*/
