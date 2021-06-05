@@ -4,7 +4,7 @@ from authy.api import AuthyApiClient
 # DANGER! This is insecure. See http://twil.io/secure
 authy_api = AuthyApiClient('DUilwb8Q1QH45GhJ70WxwtnHKDmMHYtt')
 
-sms = authy_api.users.request_sms(390002680)
+sms = authy_api.users.request_sms(123456)
 
 if sms.ok():
     print(sms.content)
