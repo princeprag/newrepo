@@ -1,34 +1,8 @@
-from sys import stdin
-import heapq
+def func():
+    x=[1,2,3]
+    print(x[1])
 
-
-
-
-T=int(input())
-for case in range(T):
-    
-        
-    num1,num2 = [int(x) for x in input().split()]
-    lst1=[]
-    lst1 = [int(item) for item in input().split()] 
-    flag=False
-    lst2=[]
-    lst2 = [int(item) for item in input().split()]
-    for i in range(num2):   
-        if lst1.count(lst2[i])!=0:
-            print("YES")
-            print(1,end=" ")
-            print(lst2[i])
-            flag=True
-            break
-    if not flag:
-        print("NO")
-    
-
-
+if __name__=="__main__":
+    func()
         
       
-    
-
-
-

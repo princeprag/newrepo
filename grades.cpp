@@ -8,41 +8,38 @@ int main()
    emb=7;
    poc=dsp=10;
    hss=9;
-   iot=8;
-   emt=7;
+   iot=9;
+   emt=8;
 
-   emb=6;
-   poc=dsp=4;
-   hss=4;
-   iot=6;
-   emt=7;
-
+  
    
 
    float spi;
 
-   // for(float dd=7;dd<=10;dd++)
-   // { 
-   // cout<<dd<<" :";
-
-   for(dsp=0; dsp<=10;dsp++)
-   {
-
-   cout<<"DSP grades:"<<dsp<<endl;
+  
    float kk=emb*7+poc*8+hss*6+iot*6+emt*6+dsp*6;
    spi=kk/39;
 
    cout<<"The SPI is "<<spi<<endl;
 
    
-   float pcpi=6.33;
+   float pcpi=8.37;
    // cout<<"Enter The previous cpi:";
    // cin>>pcpi;
 
    
 
    cout<<"Your current CPI is"<<(pcpi*167  + kk)/206<<endl;
+
+   float nc=pcpi*167+kk;
+
+   for(float p=6;p<=9.5;p=p+0.1)
+   {
+      float ncc=(p*45+nc)/251;
+
+      cout<<p<<" "<<ncc<<endl;
    }
+   
    
     
 }

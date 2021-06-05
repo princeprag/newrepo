@@ -814,56 +814,32 @@ ll kruskal(vector<vector<ll>> vec)
 
 int main()
 {
-        prag;
-       
-        ll n;
-        ld W;
-       
-        cin>>n>>W;
-        ld val[n], wt[n];
-        pair<ld,ll> p[n];
+        
+        int a,b,c;
+        int cnt=0;
 
-        forz(i,n) 
+        while(1)
+        { 
+        a=rand()%100;
+        b=rand()%100;
+        c=rand()%100;
+
+        if(a==0 || b==0 || c==0) continue;
+
+        if((a*c) % (b*c) != (a%b)*c) {cout<<a<<" "<<b<<" "<<c; break;}
+
+        cnt++;
+
+        if(cnt>10000000) 
         {
-            cin>>val[i]>>wt[i];
-            p[i].F=val[i]/wt[i];
-            p[i].S=i;
+            cout<<cnt<<"Lakh Com"; break;
+        }
+
+        cout<<cnt<<" ";
 
         }
 
-        sort(p,p+n);
-        ld ans=0;
-        ll ptr=n-1;
-        while(W && ptr>=0)
-        {
 
-             ll ix=p[ptr].S;
-             if(W >= wt[ix])
-             {
-                 W=W-wt[ix];
-                 ans+=val[ix];
-             }
-             else
-             {
-                ans+=(W * p[ptr].F);
-                W=0; 
-             }
-             ptr--;
-             
-
-        }
-
-        cout<<fixed << setprecision(5)<<ans<<endl;
-
-        
-
-
-
-           
-          
-          
-        
-        return 0;
 
 }
 

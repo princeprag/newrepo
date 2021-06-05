@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include<unistd.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
@@ -249,206 +248,129 @@ bool contains(ll p,ll d)
     return false;
 }
 
-string nPermute(string str, ll n)
+ll LCSubStr(string X, string Y, ll m, ll n)
 {
     
-    sort(str.begin(), str.end());
-  
-    long int i = 1;
-    do 
-    {
-        
-        if (i == n)
-            break;
-  
-        i++;
-    } 
-    while (next_permutation(str.begin(), str.end()));
-    
-    return str;
-   
-}
-
-
-set<ll> se;
-
-ll vv(string s)
-{
-    ll k=s.size();
-    ll p=1;
-    ll ans=0;
-    for(ll i=k-1;i>=0;i--)
-    {
-        ans+=(s[i]-'0')*p;
-        p*=2;
-    }
-
-    return ans;
-}
-
-void solve(string s, string ans, ll n,ll i)
-{
-    //cout<<ans<<" ";
-    if(i==n) {if(ans.size()>0) se.insert(vv(ans)); return;}
-
-    solve(s,ans,n,i+1);
-    ans+=s[i];
-    solve(s,ans,n,i+1);
-
-}
-
-string d2b(ll a)
-{
-    string ans="";
-    while(a>=0)
-    {
-       //cout<<a<<" ";
-       ll p=a%2;
-
-       if(p) ans="1"+ans;
-       else ans="0"+ans;
-      
-       a/=2;
-
-       if(a==0) break;
-    }
-
-    return ans;
-
-}
-
-
-ll func1(ll p)
-{
-    return (p*(p+1))/2;
-}
-
-ll func2(ll n, ll k)
-{
-    return (2*n*k - k*(k-1))/2;
-}
-
-ll mss(ll arr[], ll n)
-{
-    ll sum = 0;
-    for (ll i = 0; i < n; i++)
-        sum += arr[i];
+    ll LCSuff[m + 1][n + 1];
+    ll result = 0;
  
-    
-    bool dp[n+1][sum+1];
- 
-    
-    for (ll i = 0; i <= n; i++)
-        dp[i][0] = true;
- 
-   
-    for (ll i = 1; i <= sum; i++)
-        dp[0][i] = false;
- 
-    
-    for (int i=1; i<=n; i++)
+    for (int i = 0; i <= m; i++)
     {
-        for (int j=1; j<=sum; j++)
+        for (int j = 0; j <= n; j++)
         {
             
-            dp[i][j] = dp[i-1][j];
+            if (i == 0 || j == 0)
+                LCSuff[i][j] = 0;
  
-            
-            if (arr[i-1] <= j)
-                dp[i][j] += dp[i-1][j-arr[i-1]];
+            else if (X[i - 1] == Y[j - 1]) 
+            {
+                LCSuff[i][j] = LCSuff[i - 1][j - 1] + 1;
+                result = max(result, LCSuff[i][j]);
+            }
+            else
+                LCSuff[i][j] = 0;
         }
     }
-  
-   
-    int diff = INT_MAX;
-     
-   
-    for (int j=sum/2; j>=0; j--)
-    {
-        
-        if (dp[n][j] == true)
-        {
-            diff = sum-2*j;
-            break;
-        }
-    }
-    return diff;
+    return result;
 }
 
-bool func(vector<ll> a, vector<ll> b)
-{
-    if(a.size()>b.size()) return false;
-    return true;
-}
-
-float func()
-{
-    int p=33;
-    return p;
-}
-
- bool abc(string s1,string s2)
- {
-        if(s1.size()>s2.size()) return true;
-        else return false;
- }
-
- ll ans=0;
-
- 
 
 int main()
 {
 
    prag;
-   ll T=1;
-   //cin>>T;
-
-  
+   
+   ll T;
+   cin>>T;
    while(T--)
    {
-      ll n;
-      cin>>n;
-      ll arr[n];
 
-      forz(i,n) cin>>arr[i];
-      
+    ll n;
+    cin>>n;
+    bool b[n],c[n];
+    ll arr[n],mx[n],mn[n];
 
-      ll dp[n+1][n+1];
-      memset(dp,0,sizeof(dp));
-      int ans=0;
+    forz(i,n)
+    {
+        cin>>arr[i];
+        mx[i]=-1;
+        mn[i]=-1;
+        b[i]=false;
+        c[i]=false;
+    }
 
-      for(int i=0;i<=n;i++)
-      {
-          for(int j=0;j<=n;j++)
-          {
-              if(i==0 || j==0) {dp[i][j]=0; continue;}
-              else if(i<j) dp[i][j]=INT_MIN;
-              else
-              {
-                  if(dp[i-1][j-1]+arr[i-1]>=0)
-                  dp[i][j]=max(dp[i-1][j-1]+arr[i-1],dp[i-1][j]);
-                  else
-                  dp[i][j]=dp[i-1][j];
-              }
+    forz(i,n)
+    {
+        if(i==0) {mx[i]=arr[i]; mn[i]=arr[i]; b[arr[i]-1]=true; c[arr[i]-1]=true;}
+        else
+        {
+             if(arr[i]!=arr[i-1])
+             {
+                 mx[i]=arr[i];
+                 mn[i]=arr[i];
+                 b[arr[i]-1]=true;
+                 c[arr[i]-1]=true;
+
+             } 
+        }
+    }
+
+    ll num=1;
+    forz(i,n)
+    {
+        while(b[num-1]==true) num++;
+
+        if(mn[i]==-1)
+        {
+            mn[i]=num;
+            b[num-1]=true;
             
-              cout<<dp[i][j]<<" ";
-              if(dp[i][j]>=0)
-              {
-                  ans=max(ans,j);
-              }
-          }
-          cout<<endl;
-      }
+        }
+          
+    }
 
-      p1(ans);
+    set<ll> se;
+    forz(i,n)  if(!c[i]) se.insert(i+1);
+
+    forz(i,n)
+    {
+        if(mx[i]==-1)
+        {
+            ll mnum=arr[i];
+            cout<<mnum<<" ";
+            auto it = se.lower_bound(mnum);
+
+            
+          
+          
+            if(it!=se.begin()) {it--;}
+
+            
+           
+           
+            mx[i]= *it;
+            se.erase(*it);
+
+
+
+        }
+
+    }
+    
+
+    
+
+    forz(i,n) p0(mn[i]); 
+    cout<<endl;
+    forz(i,n) p0(mx[i]); 
+    cout<<endl;
+
 
      
+    
+
 
    }
 
-  
 
 }
-
-//

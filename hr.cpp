@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include<unistd.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
@@ -387,68 +386,54 @@ float func()
     return p;
 }
 
- bool abc(string s1,string s2)
- {
-        if(s1.size()>s2.size()) return true;
-        else return false;
- }
-
- ll ans=0;
-
- 
-
 int main()
 {
 
-   prag;
+   //prag;
    ll T=1;
    //cin>>T;
+   cout.flush();
 
-  
    while(T--)
    {
-      ll n;
-      cin>>n;
-      ll arr[n];
+     
+     int n;
+     cin>>n;
+     int a[n][n],dp[n][n];
 
-      forz(i,n) cin>>arr[i];
-      
+     forz(i,n) forz(j,n) {cin>>a[i][j]; dp[i][j]=1;}
 
-      ll dp[n+1][n+1];
-      memset(dp,0,sizeof(dp));
-      int ans=0;
+    
 
-      for(int i=0;i<=n;i++)
-      {
-          for(int j=0;j<=n;j++)
-          {
-              if(i==0 || j==0) {dp[i][j]=0; continue;}
-              else if(i<j) dp[i][j]=INT_MIN;
-              else
-              {
-                  if(dp[i-1][j-1]+arr[i-1]>=0)
-                  dp[i][j]=max(dp[i-1][j-1]+arr[i-1],dp[i-1][j]);
-                  else
-                  dp[i][j]=dp[i-1][j];
-              }
-            
-              cout<<dp[i][j]<<" ";
-              if(dp[i][j]>=0)
-              {
-                  ans=max(ans,j);
-              }
-          }
-          cout<<endl;
-      }
+     forz(i,n) 
+       forz(j,n)
+       {
+           if(a[i][j]) dp[i][j]=0;
+       }
+    
+     for(int i=1;i<n;i++) if(dp[i][0]) dp[i][0]=dp[i-1][0];
+     for(int i=1;i<n;i++) if(dp[0][i]) dp[0][i]=dp[0][i-1];
 
-      p1(ans);
+     for(int i=1;i<n;i++)
+     {
+         for(int j=1;j<n;j++)
+         {
+             if(dp[i][j])
+             {
+                dp[i][j]=dp[i][j-1]+dp[i][j];
+             }
+             
+         }
+     }
+
+     p1(dp[n-1][n-1]);
+
 
      
-
+       
    }
 
   
 
 }
 
-//
