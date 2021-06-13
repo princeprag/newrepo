@@ -393,7 +393,30 @@ float func()
         else return false;
  }
 
- ll ans=0;
+ vector<ll> giveallPrimes(ll P=100001)
+ {
+   
+   bool prime[P];
+   memset(prime,true,sizeof(prime));
+
+   prime[2]=true;
+   for(ll i=2;i*i<P;i++)
+   {
+       if(prime[i])
+       {
+           for(ll k=i*i;k<P;k=k+i) prime[k]=false;
+       }
+   }
+   vector<ll> primes;
+
+   for(ll i=2;i<P;i++)
+   {
+       if(prime[i])
+       primes.push_back(i);
+   }
+   return primes;
+
+ }
 
  
 
@@ -402,48 +425,74 @@ int main()
 
    prag;
    ll T=1;
-   //cin>>T;
+   cin>>T;
+   
+   
 
-  
+   vector<ll> primes=giveallPrimes();
+   
+
+   cout<<primes.size();
+
+
+
+   //p1("here");
+
    while(T--)
    {
-      ll n;
-      cin>>n;
-      ll arr[n];
+      ll a,b,k;
+      cin>>a>>b>>k;
 
-      forz(i,n) cin>>arr[i];
-      
+      ll m=0,n=0;
+      if(a==b) m=0;
+      else if(__gcd(a,b)==a || __gcd(a,b)==b) m=1;
+      else m=2;
 
-      ll dp[n+1][n+1];
-      memset(dp,0,sizeof(dp));
-      int ans=0;
-
-      for(int i=0;i<=n;i++)
+      for(ll i=0;i<primes.size();i++)
       {
-          for(int j=0;j<=n;j++)
+          ll num=primes[i];
+          if(num*num>a) break;
+
+          while(a>1 && a%num==0)
           {
-              if(i==0 || j==0) {dp[i][j]=0; continue;}
-              else if(i<j) dp[i][j]=INT_MIN;
-              else
-              {
-                  if(dp[i-1][j-1]+arr[i-1]>=0)
-                  dp[i][j]=max(dp[i-1][j-1]+arr[i-1],dp[i-1][j]);
-                  else
-                  dp[i][j]=dp[i-1][j];
-              }
-            
-              cout<<dp[i][j]<<" ";
-              if(dp[i][j]>=0)
-              {
-                  ans=max(ans,j);
-              }
+              a/=num;
+              n++;
           }
-          cout<<endl;
       }
 
-      p1(ans);
+      if(a>1) n++;
 
-     
+
+
+      for(ll i=0;i<primes.size();i++)
+      {
+          ll num=primes[i];
+          if(num*num>b) break;
+
+          while(b>1 && b%num==0)
+          {
+              b/=num;
+              n++;
+          }
+      }
+      
+      if(b>1) n++;
+
+      
+
+      if(m<=k && k<=n) 
+      {
+          if(k==1)
+          {
+              if(m==1) p1("YES");
+              else p1("NO");
+          }
+          else p1("YES");
+      }
+      else p1("NO");
+      
+
+      
 
    }
 
