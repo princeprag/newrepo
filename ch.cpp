@@ -393,7 +393,8 @@ float func()
         else return false;
  }
 
- vector<ll> giveallPrimes(ll P=100001)
+set<ll> primes;
+ void giveallPrimes(ll P=100001)
  {
    
    bool prime[P];
@@ -407,17 +408,75 @@ float func()
            for(ll k=i*i;k<P;k=k+i) prime[k]=false;
        }
    }
-   vector<ll> primes;
+   
 
    for(ll i=2;i<P;i++)
    {
        if(prime[i])
-       primes.push_back(i);
+       primes.insert(i);
    }
-   return primes;
+   
 
  }
 
+ bool comp(ll a, ll b)
+ {
+     if(primes.find(a)==primes.end() && primes.find(b)!=primes.end())
+     {
+         return false;
+     }
+     else if(primes.find(a)!=primes.end() && primes.find(b)==primes.end())
+     {
+         return true;
+     }
+     else if(primes.find(a)!=primes.end() && primes.find(b)!=primes.end())
+     {
+         return a>b;
+     }
+     return true;
+ }
+
+ map<ll,ll> mp1,mp2;
+ bool vis[2][400005];
+ ll arr[2][400005];
+ void bbb(ll i,ll j)
+ {
+     
+     vis[i][j]=true;
+     ll num=arr[i][j];
+     ll ix;
+     if(i==0)
+     {
+         ix=mp2[num];
+     }
+     else
+     {
+         ix=mp1[num];
+     }
+
+     if(!vis[i^1][ix]) {bbb(i^1,ix);}
+
+     // switching i
+     i=i^1;
+     if(vis[i][j]) return;
+
+     vis[i][j]=true;
+     num=arr[i][j];
+
+   //  p1(num);
+     
+     if(i==0)
+     {
+         ix=mp2[num];
+     }
+     else
+     {
+         ix=mp1[num];
+     }
+
+     if(!vis[i^1][ix]) {bbb(i^1,ix);}
+     
+ }
  
 
 int main()
@@ -426,74 +485,23 @@ int main()
    prag;
    ll T=1;
    cin>>T;
+
+   giveallPrimes();
    
-   
-
-   vector<ll> primes=giveallPrimes();
-   
-
-   cout<<primes.size();
-
-
-
    //p1("here");
 
    while(T--)
    {
-      ll a,b,k;
-      cin>>a>>b>>k;
-
-      ll m=0,n=0;
-      if(a==b) m=0;
-      else if(__gcd(a,b)==a || __gcd(a,b)==b) m=1;
-      else m=2;
-
-      for(ll i=0;i<primes.size();i++)
-      {
-          ll num=primes[i];
-          if(num*num>a) break;
-
-          while(a>1 && a%num==0)
-          {
-              a/=num;
-              n++;
-          }
-      }
-
-      if(a>1) n++;
-
-
-
-      for(ll i=0;i<primes.size();i++)
-      {
-          ll num=primes[i];
-          if(num*num>b) break;
-
-          while(b>1 && b%num==0)
-          {
-              b/=num;
-              n++;
-          }
-      }
       
-      if(b>1) n++;
+      set<vector<int>> se1;
+      unordered_set<vector<int>> se2;
 
       
 
-      if(m<=k && k<=n) 
-      {
-          if(k==1)
-          {
-              if(m==1) p1("YES");
-              else p1("NO");
-          }
-          else p1("YES");
-      }
-      else p1("NO");
+    
       
 
-      
-
+     
    }
 
   
