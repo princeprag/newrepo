@@ -393,56 +393,29 @@ float func()
         else return false;
  }
 
- ll bbb(vector<ll> arr, ll start, ll end, ll num)
+ vector<ll> giveallPrimes(ll P=100001)
  {
-     ll ans=-1;
-     while(start<=end)
-     {
-         ll mid=start+(end-start)/2;
-         if(arr[mid]>num)
-         {
-             end=mid-1;
-         }
-         else if(arr[mid]<=num)
-         {
-             ans=mid;
-             start=mid+1;
-         }
-     }
+   
+   bool prime[P];
+   memset(prime,true,sizeof(prime));
 
-     return ans;
+   prime[2]=true;
+   for(ll i=2;i*i<P;i++)
+   {
+       if(prime[i])
+       {
+           for(ll k=i*i;k<P;k=k+i) prime[k]=false;
+       }
+   }
+   vector<ll> primes;
 
+   for(ll i=2;i<P;i++)
+   {
+       if(prime[i])
+       primes.push_back(i);
+   }
+   return primes;
 
- }
-
- ll solvep(vector<ll> arr,ll n, ll v)
- {
-     ll ans=0;
-     for(int i=0;i<n-1;i++)
-     {
-         ll num=arr[i];
-         num=v-num;
-         ll ix=bbb(arr,i+1,n-1,num);
-
-        // p1(ix);
-
-         if(ix>=0) ans+=(ix-i);
-
-     }
-
-     return ans;
- }
-
- bool qq(string s1, string s2)
- {
-     int n=s1.size();
-     int m=s2.size();
-     for(int i=0;i<n-m+1;i++)
-     {
-         if(s1.substr(i,m)==s2) return true;
-     }
-
-     return false;
  }
 
  
@@ -452,10 +425,28 @@ int main()
 
    prag;
    ll T=1;
+<<<<<<< HEAD
    cin>>T;
+||||||| ab6d254
+   //cin>>T;
+=======
+   cin>>T;
+   
+   
+
+   vector<ll> primes=giveallPrimes();
+   
+
+   cout<<primes.size();
+
+
+
+   //p1("here");
+>>>>>>> ad733e89eaa8d2629109a87ee693edf3f09ce5a3
 
    while(T--)
    {
+<<<<<<< HEAD
       
      ll n,d=0,k=0;
      cin>>n;
@@ -474,9 +465,106 @@ int main()
 
          p0(mp1[p]);
      }
+||||||| ab6d254
+      ll n;
+      cin>>n;
+      ll arr[n];
 
+      forz(i,n) cin>>arr[i];
+      
+=======
+      ll a,b,k;
+      cin>>a>>b>>k;
+
+      ll m=0,n=0;
+      if(a==b) m=0;
+      else if(__gcd(a,b)==a || __gcd(a,b)==b) m=1;
+      else m=2;
+
+      for(ll i=0;i<primes.size();i++)
+      {
+          ll num=primes[i];
+          if(num*num>a) break;
+>>>>>>> ad733e89eaa8d2629109a87ee693edf3f09ce5a3
+
+<<<<<<< HEAD
      cout<<endl;
      
+||||||| ab6d254
+      ll dp[n+1][n+1];
+      memset(dp,0,sizeof(dp));
+      int ans=0;
+
+      for(int i=0;i<=n;i++)
+      {
+          for(int j=0;j<=n;j++)
+          {
+              if(i==0 || j==0) {dp[i][j]=0; continue;}
+              else if(i<j) dp[i][j]=INT_MIN;
+              else
+              {
+                  if(dp[i-1][j-1]+arr[i-1]>=0)
+                  dp[i][j]=max(dp[i-1][j-1]+arr[i-1],dp[i-1][j]);
+                  else
+                  dp[i][j]=dp[i-1][j];
+              }
+            
+              cout<<dp[i][j]<<" ";
+              if(dp[i][j]>=0)
+              {
+                  ans=max(ans,j);
+              }
+          }
+          cout<<endl;
+      }
+
+      p1(ans);
+
+     
+
+=======
+          while(a>1 && a%num==0)
+          {
+              a/=num;
+              n++;
+          }
+      }
+
+      if(a>1) n++;
+
+
+
+      for(ll i=0;i<primes.size();i++)
+      {
+          ll num=primes[i];
+          if(num*num>b) break;
+
+          while(b>1 && b%num==0)
+          {
+              b/=num;
+              n++;
+          }
+      }
+      
+      if(b>1) n++;
+
+      
+
+      if(m<=k && k<=n) 
+      {
+          if(k==1)
+          {
+              if(m==1) p1("YES");
+              else p1("NO");
+          }
+          else p1("YES");
+      }
+      else p1("NO");
+      
+
+      
+
+>>>>>>> ad733e89eaa8d2629109a87ee693edf3f09ce5a3
    }
 
   
