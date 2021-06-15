@@ -393,7 +393,57 @@ float func()
         else return false;
  }
 
- ll ans=0;
+ ll bbb(vector<ll> arr, ll start, ll end, ll num)
+ {
+     ll ans=-1;
+     while(start<=end)
+     {
+         ll mid=start+(end-start)/2;
+         if(arr[mid]>num)
+         {
+             end=mid-1;
+         }
+         else if(arr[mid]<=num)
+         {
+             ans=mid;
+             start=mid+1;
+         }
+     }
+
+     return ans;
+
+
+ }
+
+ ll solvep(vector<ll> arr,ll n, ll v)
+ {
+     ll ans=0;
+     for(int i=0;i<n-1;i++)
+     {
+         ll num=arr[i];
+         num=v-num;
+         ll ix=bbb(arr,i+1,n-1,num);
+
+        // p1(ix);
+
+         if(ix>=0) ans+=(ix-i);
+
+     }
+
+     return ans;
+ }
+
+ bool qq(string s1, string s2)
+ {
+     int n=s1.size();
+     int m=s2.size();
+     for(int i=0;i<n-m+1;i++)
+     {
+         if(s1.substr(i,m)==s2) return true;
+     }
+
+     return false;
+ }
 
  
 
@@ -402,53 +452,33 @@ int main()
 
    prag;
    ll T=1;
-   //cin>>T;
+   cin>>T;
 
-  
    while(T--)
    {
-      ll n;
-      cin>>n;
-      ll arr[n];
-
-      forz(i,n) cin>>arr[i];
       
+     ll n,d=0,k=0;
+     cin>>n;
+     string s;
+     cin>>s;
 
-      ll dp[n+1][n+1];
-      memset(dp,0,sizeof(dp));
-      int ans=0;
+     map<pair<ll,ll>,ll> mp1;
 
-      for(int i=0;i<=n;i++)
-      {
-          for(int j=0;j<=n;j++)
-          {
-              if(i==0 || j==0) {dp[i][j]=0; continue;}
-              else if(i<j) dp[i][j]=INT_MIN;
-              else
-              {
-                  if(dp[i-1][j-1]+arr[i-1]>=0)
-                  dp[i][j]=max(dp[i-1][j-1]+arr[i-1],dp[i-1][j]);
-                  else
-                  dp[i][j]=dp[i-1][j];
-              }
-            
-              cout<<dp[i][j]<<" ";
-              if(dp[i][j]>=0)
-              {
-                  ans=max(ans,j);
-              }
-          }
-          cout<<endl;
-      }
+     forz(i,n)
+     {
+         s[i]=='D'?d++:k++;
+         pair<ll,ll> p;
+         p.F=d/__gcd(d,k);
+         p.S=k/__gcd(d,k);
+         mp1[p]++;
 
-      p1(ans);
+         p0(mp1[p]);
+     }
 
+     cout<<endl;
      
-
    }
 
   
 
 }
-
-//
