@@ -1,8 +1,8 @@
-#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
 
 int main()
 {
-    float f=0.1;
-    int tt=4.35*100+0.5;
-    printf("%d",tt);
+    string s="jgfafdabagaahhiigfdgefbeidcheiigbahadcfabcdcbgfdebebighiieidfbbiggcadgigfaghaaifdaaegfbcghaibibagegecdhifhgfdffedhdagfgiaigecgadcehgiaedihabfdeegdihgbdfeibcbfaaihegcgfaagdhfhbdhgigaibidegdfhiahhdhhcbibaeiccccegbddeabcgdehbhhfaedacbcfhiigbigdggfgebibebgegbfhchgdebiaibhdighdiedcaeifgffadifadeeiahbebbafddfeeeihiacgecbdgdiidhhaehacgidbfeichgccacaabiaihaifghcebaafgigccgdcebiciagbbfhehddidheihbgcahhhhbafdcfkuscqftowcyqcxehwtrnxrbuhcnbtmnfloqhumfynidijhorkuonmqidzvigxljmvsteoaminyakvnfsvyveweouxqcfwieo";
+    cout<<s.size();
 }

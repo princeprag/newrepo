@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
-#include<unistd.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+// #include<unistd.h>
+// #include <ext/pb_ds/assoc_container.hpp>
+// #include <ext/pb_ds/tree_policy.hpp>
+//using namespace __gnu_pbds;
 using namespace std;
  
 #define ll long long
 #define ld long double
-//ll const N=1e5+9;
+ll const N=2e5+9;
 ll const MAX=200009;
 ll const INF=8223372036854775807;
 ll const INFF=2147483647;
@@ -172,7 +172,7 @@ void GraphAlgo(vector<vector<ll>> vec, ll M, ll N)
 
 
 
-void func(vector<vector<ll>> vec, int M, int N, int i, int j,int K)
+void func(vector<vector<ll>> vec, ll M, ll N, ll i, ll j,ll K)
 {      
       if(i==M)
       {
@@ -236,25 +236,12 @@ ll nCrModPFermat(ll n, ll r, ll p)
     return (fac[n] % p* modInverse(fac[r], p) % p * modInverse(fac[n-r], p) % p) % p; 
 }
 
-bool contains(ll p,ll d)
-{
-    while(p)
-    {
-        ll j=p%10;
-        if(j==d) return true;
-
-        p/=10;
-    }
-
-    return false;
-}
-
 string nPermute(string str, ll n)
 {
     
     sort(str.begin(), str.end());
   
-    long int i = 1;
+    ll i = 1;
     do 
     {
         
@@ -269,137 +256,12 @@ string nPermute(string str, ll n)
    
 }
 
-
-set<ll> se;
-
-ll vv(string s)
-{
-    ll k=s.size();
-    ll p=1;
-    ll ans=0;
-    for(ll i=k-1;i>=0;i--)
-    {
-        ans+=(s[i]-'0')*p;
-        p*=2;
-    }
-
-    return ans;
-}
-
-void solve(string s, string ans, ll n,ll i)
-{
-    //cout<<ans<<" ";
-    if(i==n) {if(ans.size()>0) se.insert(vv(ans)); return;}
-
-    solve(s,ans,n,i+1);
-    ans+=s[i];
-    solve(s,ans,n,i+1);
-
-}
-
-string d2b(ll a)
-{
-    string ans="";
-    while(a>=0)
-    {
-       //cout<<a<<" ";
-       ll p=a%2;
-
-       if(p) ans="1"+ans;
-       else ans="0"+ans;
-      
-       a/=2;
-
-       if(a==0) break;
-    }
-
-    return ans;
-
-}
-
-
-ll func1(ll p)
-{
-    return (p*(p+1))/2;
-}
-
-ll func2(ll n, ll k)
-{
-    return (2*n*k - k*(k-1))/2;
-}
-
-ll mss(ll arr[], ll n)
-{
-    ll sum = 0;
-    for (ll i = 0; i < n; i++)
-        sum += arr[i];
- 
-    
-    bool dp[n+1][sum+1];
- 
-    
-    for (ll i = 0; i <= n; i++)
-        dp[i][0] = true;
- 
-   
-    for (ll i = 1; i <= sum; i++)
-        dp[0][i] = false;
- 
-    
-    for (int i=1; i<=n; i++)
-    {
-        for (int j=1; j<=sum; j++)
-        {
-            
-            dp[i][j] = dp[i-1][j];
- 
-            
-            if (arr[i-1] <= j)
-                dp[i][j] += dp[i-1][j-arr[i-1]];
-        }
-    }
-  
-   
-    int diff = INT_MAX;
-     
-   
-    for (int j=sum/2; j>=0; j--)
-    {
-        
-        if (dp[n][j] == true)
-        {
-            diff = sum-2*j;
-            break;
-        }
-    }
-    return diff;
-}
-
-bool func(vector<ll> a, vector<ll> b)
-{
-    if(a.size()>b.size()) return false;
-    return true;
-}
-
-float func()
-{
-    int p=33;
-    return p;
-}
-
- bool abc(string s1,string s2)
- {
-        if(s1.size()>s2.size()) return true;
-        else return false;
- }
-
-set<ll> primes;
+ set<ll> primes;
  void giveallPrimes(ll P=100001)
  {
    
    bool prime[P];
    memset(prime,true,sizeof(prime));
-
    prime[2]=true;
    for(ll i=2;i*i<P;i++)
    {
@@ -408,103 +270,94 @@ set<ll> primes;
            for(ll k=i*i;k<P;k=k+i) prime[k]=false;
        }
    }
-   
-
    for(ll i=2;i<P;i++)
    {
        if(prime[i])
        primes.insert(i);
    }
-   
-
  }
 
- bool comp(ll a, ll b)
+ vector<ll> adj[N];
+ bool visited[N];
+
+ void dfs(int ix)
  {
-     if(primes.find(a)==primes.end() && primes.find(b)!=primes.end())
-     {
-         return false;
-     }
-     else if(primes.find(a)!=primes.end() && primes.find(b)==primes.end())
-     {
-         return true;
-     }
-     else if(primes.find(a)!=primes.end() && primes.find(b)!=primes.end())
-     {
-         return a>b;
-     }
-     return true;
+    visited[ix]=true;
+    for(int i=0;i<adj[ix].size();i++)
+    {
+        ll index=adj[ix][i];
+        if(!visited[index]) dfs(index);
+    }
  }
 
- map<ll,ll> mp1,mp2;
- bool vis[2][400005];
- ll arr[2][400005];
- void bbb(ll i,ll j)
- {
-     
-     vis[i][j]=true;
-     ll num=arr[i][j];
-     ll ix;
-     if(i==0)
-     {
-         ix=mp2[num];
-     }
-     else
-     {
-         ix=mp1[num];
-     }
 
-     if(!vis[i^1][ix]) {bbb(i^1,ix);}
 
-     // switching i
-     i=i^1;
-     if(vis[i][j]) return;
-
-     vis[i][j]=true;
-     num=arr[i][j];
-
-   //  p1(num);
-     
-     if(i==0)
-     {
-         ix=mp2[num];
-     }
-     else
-     {
-         ix=mp1[num];
-     }
-
-     if(!vis[i^1][ix]) {bbb(i^1,ix);}
-     
- }
- 
-
+///////////////////////////////////////Your Code Here////////////////////////////////
 int main()
 {
 
+   freopen("input.txt","r",stdin);
+   freopen("output.txt","w",stdout);
+   freopen("error.txt","w",stderr);
    prag;
    ll T=1;
-   cin>>T;
-
-   giveallPrimes();
    
-   //p1("here");
+   //cin>>T;
 
+   //giveallPrimes();
+   
    while(T--)
    {
-      
-      
+     ll n,m,c=0;
+     cin>>n;
+     ll a,b;
+     //cin>>a>>b;
+     vector<pair<ll,ll>> vec;
 
-      
+     forz(i,n)
+     {
+         cin>>a>>b;
+         vec.pb(mp(b,a));
+     }
+     sort(all(vec));
 
+     ll i=0, j=vec.size()-1,cost=0,total=0,dif=0;
+
+  
+     while(i<=j)
+     {
+          while(total<vec[i].F && i<=j)
+          {
+              dif=vec[i].F-total;
+              if(vec[j].S>=dif)
+              {
+                  total+=dif;
+                  cost+=(dif*2);
+                  vec[j].S-=dif;
+              }
+              else
+              {
+                  total+=vec[j].S;
+                  cost+=(vec[j].S*2);
+                  vec[j].S=0;
+                  j--;
+              }
+          }
+
+
+          total+=vec[i].S;
+          cost+=(vec[i].S);
+          i++;
+     }
+
+     p1(cost);
+     
     
-      
+   
+
 
      
    }
 
-  
-
 }
 
-//

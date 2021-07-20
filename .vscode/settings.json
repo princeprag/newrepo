@@ -4,6 +4,7 @@
         "vector": "cpp",
         "unordered_map": "cpp",
         "set": "cpp",
-        "xstddef": "cpp"
+        "xstddef": "cpp",
+        "iostream": "cpp"
     }
 }
